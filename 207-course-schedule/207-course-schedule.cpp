@@ -1,7 +1,7 @@
 class Solution {
 public:
     bool canFinish(int numCourses, vector<vector<int>>& p) {
-        
+        if (p.size()==0){return true;}
         vector<int> indegree(numCourses,0);
         vector<vector<int>> graph(numCourses);
         
