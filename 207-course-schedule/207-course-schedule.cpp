@@ -19,9 +19,7 @@ public:
             }
            
         }
-        for(auto x:indegree){
-            cout<<x<<endl;
-        }
+       
         if(q.size()==0){
             return false;
         }
