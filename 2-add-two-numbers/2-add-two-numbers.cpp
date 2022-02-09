@@ -11,13 +11,10 @@
 class Solution {
 public:
     ListNode* addTwoNumbers(ListNode* l1, ListNode* l2) {
-       
-        ListNode* head=new ListNode(-1);
-        ListNode* out= head;
-     
-   
-           int carry=0;
-        while(l1!=NULL || l2!=NULL || carry){
+        ListNode *dummy=new ListNode(INT_MIN);
+       ListNode *head = dummy;
+       int carry = 0;
+        while(l1 || l2 || carry){
             int sum=0;
             if(l1!=NULL){
                 sum+=l1->val;
@@ -27,21 +24,13 @@ public:
                 sum+=l2->val;
                 l2 = l2->next;
             }
-         
             sum+=carry;
-            ListNode* temp = new ListNode(sum%10);
-            cout<<temp->val;
-            temp->next = NULL;
-           
-            
+            ListNode *node = new ListNode(sum%10);
             carry = sum/10;
-            out->next = temp;
-            out = out->next;
+            dummy->next = node;
+            dummy = dummy->next;
                 
         }
-      
         return head->next;
-      
-        
     }
 };
