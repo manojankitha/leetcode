@@ -9,69 +9,58 @@ class Solution
 {
 	public:
 	
-	int findPar(int node, vector<int>& parent){
-	    if(node==parent[node]){
-	        return node;
-	    }
-	    return parent[node]=findPar(parent[node],parent);
-	}
-	
-	void Union(int uP, int vP, vector<int>& parent, vector<int>& rank){
-	    int u = findPar(uP,parent);
-	    int v = findPar(vP,parent);
-	    
-	    if(rank[u]<rank[v]){
-	        parent[u]=v;
-	    } else if (rank[v]<rank[u]){
-	        parent[v]=u;
-	    }else if(rank[v]==rank[u]){
-	        parent[v]=u;
-	        rank[u]++;
-	    }
-	}
 	//Function to find sum of weights of edges of the Minimum Spanning Tree.
     int spanningTree(int V, vector<vector<int>> adj[])
     {
-        
-        vector<int> parent(V);
-        vector<int> rank(V,0);
-        // code here
-        vector<vector<int>> edgeList;
+        vector<pair<int,int>> ad[V];
         
         for(int i=0;i<V;i++){
-            vector<int> temp;
             for(int j=0;j<adj[i].size();j++){
-                temp.push_back(adj[i][j][1]);
-                temp.push_back(adj[i][j][0]);
-                temp.push_back(i);
-             
-                edgeList.push_back(temp);
-                temp.clear();
+                ad[i].push_back(make_pair(adj[i][j][0], adj[i][j][1]));
+                ad[adj[i][j][0]].push_back(make_pair(i, adj[i][j][1]));
             }
         }
-       
-          
         
-        // sort in increasing order of weight
-        sort(edgeList.begin(), edgeList.end());
+        int parent[V];
+        int key[V];
+        bool mst[V];
         
-        // initialization
+        // initialize
         for(int i=0;i<V;i++){
-            parent[i]=i;
-            rank[i]=0;
+            key[i]=INT_MAX;
+            parent[i]=-1;
+            mst[i]=false;
         }
         
-        int result = 0;
+        key[0]=0;
         
-        for(auto edge: edgeList){
-            if(findPar(edge[1],parent) !=findPar(edge[2],parent)){
-                result+=edge[0];
-                Union(edge[1],edge[2],parent,rank);
+        for(int count=0;count<V-1;count++){
+            
+            int mini = INT_MAX, index;
+            for(int i=0;i<V;i++){
+                if(mst[i]==false && key[i]<mini){
+                    mini = key[i];
+                    index = i;
+                }
             }
+            mst[index]=true;
+            
+            for(auto j:ad[index]){
+                int v = j.first;
+                int wt = j.second;
+                if(mst[v]==false and wt < key[v]){
+                    parent[v] = index;
+                    key[v] = wt;
+                }
+            }
+            
         }
+        int result = 0;
+        for(int i=0;i<V;i++){result+=key[i];}
         
         return result;
         
+      
     }
 };
 
