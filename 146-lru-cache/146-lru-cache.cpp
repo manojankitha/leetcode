@@ -4,94 +4,74 @@ class LRUCache {
             public:
                 int key;
                 int val;
-                Node *prev;
-                Node *next;
-
-                Node(int _key,int _val){
-                    key=_key;
-                    val=_val;
-                }
-        };
-    
-    //DLL
-        Node *head=new Node(-1,-1);
-        Node *tail=new Node(-1,-1);
-
-        int maxCap;   // store max capacity of cache
-        unordered_map<int,Node*> cache;  // store cache {key,Node address}
-   
-    
-
-        LRUCache(int capacity) {
-            maxCap = capacity;
-            head->next=tail;
-            tail->prev=head;  
-        }
-
-        void addNode(Node *newNode){
-            Node * temp = head->next;
-            head->next=newNode;
-            newNode->prev = head;
-            temp->prev = newNode;
-            newNode->next = temp;
-
-
-        }
-
-        void removeNode(Node *delNode){
-            Node* delNext = delNode->next;
-            Node* delPrev = delNode->prev;
-            delPrev->next = delNext;
-            delNext->prev = delPrev;
-
-        }
-
-        int get(int key){
-            if (cache.find(key)!=cache.end()) {
-                // key present
-                Node * temp = cache[key];
-
-                int res = temp->val;
+                Node * prev;
+                Node * next;
                 
-                cache.erase(key);
-                removeNode(temp);
-                addNode(temp);   
-                cache[key]=head->next;
-                return res;
-            }  
-            return -1;
-        }
-
-        void put(int key, int value){
-            if(cache.find(key)!=cache.end()){
-                // key already present, so delete it
-                Node *delNode = cache[key];
-                cache.erase(key);
-                removeNode(delNode);
-
+                // constructor
+            Node(int _key,int _val) {
+                key=_key;
+                val=_val;
             }
-            if (cache.size()==maxCap){
-                 cache.erase(tail->prev->key);
-                removeNode(tail->prev);
-               
-            }
-
-
-
-            Node *newNode = new Node(key,value);
-
-            addNode(newNode);
+        };
+    Node* head = new Node(-1,-1);
+    Node* tail = new Node(-1,-1);
+    
+    int maxCap;
+    unordered_map<int,Node*> cache;
+    
+    LRUCache(int capacity) {
+        maxCap = capacity;
+        head->next = tail;
+        tail->prev = head;
+    }
+    
+    void removeNode(Node* delNode) {
+        Node* delNext = delNode->next;
+        Node* delPrev = delNode->prev;
+        delPrev->next = delNext;
+        delNext->prev = delPrev;
+    }
+    
+    void addNode(Node* newNode) {
+        Node * temp = head->next;
+        head->next = newNode;
+        newNode->prev = head;
+        newNode->next = temp;
+        temp->prev = newNode;
+    }
+    
+    int get(int key) {
+        if (cache.find(key)!=cache.end()){
+            // item present in cache
+            Node *temp = cache[key];
+            cache.erase(key);
+            int res = temp->val;
+            removeNode(temp);
+            addNode(temp);
             cache[key] = head->next;
-
-
-
-
+            return res;
         }
+        return -1;
+    }
+    
+    void put(int key,int value) {
+         if(cache.find(key)!=cache.end()){
+             Node * temp =cache[key];
+             cache.erase(key);
+             removeNode(temp);
+         }
+        if(cache.size()==maxCap){
+            // evict here
+            Node * delNode = tail->prev;
+            cache.erase(delNode->key);
+            removeNode(delNode);
+        }
+        Node * newNode = new Node(key,value);
+        addNode(newNode);
+        cache[key]= head->next;
+    }
+    
 };
-
-
-
-
 
 /**
  * Your LRUCache object will be instantiated and called as such:
