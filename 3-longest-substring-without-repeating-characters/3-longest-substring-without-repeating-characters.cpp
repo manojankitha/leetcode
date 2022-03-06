@@ -1,5 +1,6 @@
 class Solution {
 public:
+    // TC:O(N) 
     int lengthOfLongestSubstring(string s) {
         int start,end;
         int stringLen = s.length();
