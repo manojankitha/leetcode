@@ -1,5 +1,7 @@
 class Solution {
 public:
+    
+    // TC: O(N)
     int lengthOfLongestSubstringTwoDistinct(string s) {
         
         // we know that our uniqueSet has to be of max length 2
