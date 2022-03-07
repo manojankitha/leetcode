@@ -56,9 +56,11 @@ class Solution {
         
     }
     int maxDepth(TreeNode* root){
-     
-        //return calcDepthRecurse(root,1);
-        return calcDepthIterative(root);
+     if(root==NULL){
+            return 0;
+        }
+        return calcDepthRecurse(root,1);
+        //return calcDepthIterative(root);
     }
 };
 
