@@ -10,62 +10,33 @@
  * };
  */
 
-class Solution {
+
+class Solution{
     public:
-        int calcDepthRecurse(TreeNode* root, int depth){
-           
-            int left = 0,right=0;
-            while(1){
-                if(root->left==NULL && root->right==NULL){
-                    return depth;
-                }
-                if(root->left){
-                    left=calcDepthRecurse(root->left,depth+1);
-                }
-                if(root->right){
-                    right=calcDepthRecurse(root->right,depth+1);
-                }
-                return max(left,right);
-            }
-            
-            
-        }
-    
-    int calcDepthIterative(TreeNode* root){
-        stack<pair<int,TreeNode*>> st;
-        int res=0;
-        if(root==NULL){
-            return res;
-        }
-        st.push(make_pair(1,root));
-        while(!st.empty()){
-            int depth = st.top().first;
-            res = max(depth,res);
-            TreeNode* node = st.top().second;
-            st.pop();
-            if(node->left){
-                st.push(make_pair(depth+1,node->left));
-            }
-            if(node->right){
-                st.push(make_pair(depth+1,node->right));
-            }
-            
-        }
-        return res;
-        
-        
-    }
+//     int calcDepthRecursive(TreeNode* root, int depth){
+//         int left = 0,right=0;
+//         while(1){
+//             if(root->left==NULL && root->right==NULL){
+//                 return depth;
+//             }
+//             if(root->left){
+//                 left=calcDepthRecursive(root->left, depth+1);
+//             }
+//             if(root->right){
+//                 right=calcDepthRecursive(root->right, depth+1);
+//             }
+//             depth = max(left,right);
+//         }
+//         return depth;
+      
+//     }    
+ 
     int maxDepth(TreeNode* root){
-     if(root==NULL){
+        if(!root){
             return 0;
         }
-        return calcDepthRecurse(root,1);
-        //return calcDepthIterative(root);
+        int maxLeft = maxDepth(root->left);
+        int maxRight = maxDepth(root->right);
+        return max(maxLeft,maxRight)+1;
     }
 };
-
-
-
-
-
-
