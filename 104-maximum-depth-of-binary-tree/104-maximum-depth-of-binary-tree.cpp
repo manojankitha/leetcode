@@ -9,34 +9,37 @@
  *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
  * };
  */
-
-
-class Solution{
+// recursive - top bottom solution
+class Solution {
     public:
-//     int calcDepthRecursive(TreeNode* root, int depth){
-//         int left = 0,right=0;
-//         while(1){
-//             if(root->left==NULL && root->right==NULL){
-//                 return depth;
-//             }
-//             if(root->left){
-//                 left=calcDepthRecursive(root->left, depth+1);
-//             }
-//             if(root->right){
-//                 right=calcDepthRecursive(root->right, depth+1);
-//             }
-//             depth = max(left,right);
-//         }
-//         return depth;
-      
-//     }    
- 
+    
+    int calcDepthRecursive(TreeNode* root, int depth){
+        int left = 0,right=0;
+        int maxDepth=depth;
+        while(1){
+            if(root->left==NULL && root->right==NULL){
+                return maxDepth;
+            }
+            if(root->left){
+                left = calcDepthRecursive(root->left, 1+depth);
+            }
+            if(root->right){
+                right = calcDepthRecursive(root->right, 1+depth);
+            }
+            maxDepth = max(left,right);
+        }
+        return maxDepth;
+    }
+    
+    
+    
+  
     int maxDepth(TreeNode* root){
-        if(!root){
+        if(root==NULL){
             return 0;
         }
         int maxLeft = maxDepth(root->left);
-        int maxRight = maxDepth(root->right);
-        return max(maxLeft,maxRight)+1;
+        int maxRight = maxDepth(root->right);  
+        return 1+max(maxLeft, maxRight);
     }
 };
