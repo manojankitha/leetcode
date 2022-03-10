@@ -1,33 +1,24 @@
 class Solution {
 public:
     void setZeroes(vector<vector<int>>& matrix) {
-        int m = matrix.size();
-       
-       unordered_set<int> storeI;
+      // you need to traverse all elements - no other choice to find indexes where 0 is present
+        
+        unordered_set<int> storeI;
         unordered_set<int> storeJ;
-       
-        for(int i = 0;i<m;i++){
-            for(auto it = matrix[i].begin();it!=matrix[i].end();it++){
-                if (*it == 0){
-                storeI.insert(i);
-                storeJ.insert(it-matrix[i].begin());
-            
-            }
-        }}
-        for(auto d:storeJ){
-            cout<<d<<endl;
+        int m = matrix.size();
+        for(int i=0;i<m;i++){
+            for(int j=0;j<matrix[i].size();j++)
+                if(matrix[i][j]==0){
+                    storeI.insert(i);
+                    storeJ.insert(j);
+                }
         }
-            
         for(int i=0;i<m;i++){
             for(int j=0;j<matrix[i].size();j++){
-                if (storeI.count(i)>0 || storeJ.count(j) > 0){
-                   matrix[i][j] = 0; 
+                if(storeI.find(i)!=storeI.end() || storeJ.find(j)!=storeJ.end()){
+                    matrix[i][j]=0;
                 }
-               
+            }
         }
-            
-            
-        }
-        
     }
 };
