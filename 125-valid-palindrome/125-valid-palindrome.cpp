@@ -1,6 +1,9 @@
 #include<regex>
 class Solution {
 public:
+    
+    // TC: O(N)
+    // SC:O(1)
         bool isPalindrome(string s) {
          int start=0,end=s.length()-1;
             while(start<end){
