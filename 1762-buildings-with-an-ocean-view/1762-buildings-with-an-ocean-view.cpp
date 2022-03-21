@@ -1,5 +1,6 @@
 class Solution {
 public:
+      //TC: O(N) SC: O(N)
 //     vector<int> findBuildings(vector<int>& heights) {
 //         vector<int> out;
 //         stack<int> build;
@@ -16,6 +17,7 @@ public:
 //        reverse(out.begin(),out.end());
 //         return out;
 //     }
+    //TC: O(N) SC: O(1)
        vector<int> findBuildings(vector<int>& heights) {
         vector<int> out;
        int max_height =-1;
