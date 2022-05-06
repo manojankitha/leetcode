@@ -3,50 +3,50 @@
 class Solution {
 public:
     
-    bool isEqual(int a[], int b[]){
-         for (int i = 0; i < 26; i++) {
-            if (a[i] != b[i])
+    bool arrayMatches (vector<int> patternMap, vector<int>wordMap){
+        for(int i=0;i<26;i++){
+            if(wordMap[i]!=patternMap[i]){
                 return false;
+            }
         }
-        return true;
-        
-    }
-    bool checkInclusion(string pattern, string s){
-        int s1 = s.size();
-        int p1  = pattern.size();
-        if(s1<p1 || s1==0){
+         return true;
+     }
+    bool checkInclusion(string pattern, string word){  
+        // find length of pattern and word 
+        int patternLen = pattern.length();
+        int wordLen = word.length();
+        // if len(word)<len(pattern) -> return false
+        if(wordLen<patternLen){
             return false;
         }
-        if(p1==0){
-            return true;
-        }
-        int pattern_freq[26] = {0};
-        int s_freq[26] = {0};
+        // create array of size 26, create freq array for pattern 
+        vector<int> patternMap(26,0);
+        vector<int> wordMap(26,0);
         
-        for(int i=0;i<p1;i++){
-           pattern_freq[pattern[i]-'a']++;
-            s_freq[s[i]-'a']++;
+        for(auto s:pattern){
+            patternMap[s-'a']++;
+         
         }
-       
-       
-        for(int start=0,end=p1;end<s1;start++,end++){
-             if(isEqual(s_freq,pattern_freq)){
+        cout<<endl;
+        // in for loop for length of pattern, create sliding window freq map
+     for(int start=0,end=0;start<=end && end<wordLen; end++){
+            wordMap[word[end]-'a']++;
+            while(end-start+1 > patternLen){
+                wordMap[word[start]-'a']--;
+                start++;
+            }
+         
+            if(arrayMatches(wordMap,patternMap)){
                 return true;
             }
-            
-            s_freq[s[end]-'a']++;
-            s_freq[s[end-p1]-'a']--;
-            
-       
-               
+        
         }
-        if(isEqual(s_freq,pattern_freq)){
-                return true;
-            }
-    
+            // if ever there is a match in pattern freq array and word freq array, return true
+        
+        // return false
         return false;
+        
     }
-       
 
     
 };
